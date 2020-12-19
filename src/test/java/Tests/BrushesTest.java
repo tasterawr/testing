@@ -1,9 +1,8 @@
 package Tests;
 
-import Pages.LoginPage;
+import Pages.BrushesPage;
 import Properties.ConfProperties;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
@@ -11,8 +10,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.concurrent.TimeUnit;
 
-public class LoginTest {
-    public static LoginPage loginPage;
+public class BrushesTest {
+    public static BrushesPage brushesPage;
     public static WebDriver driver;
 
     @BeforeClass
@@ -20,19 +19,18 @@ public class LoginTest {
         System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromedriver"));
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.get(ConfProperties.getProperty("loginpage"));
-        loginPage = new LoginPage(driver);
+        brushesPage = new BrushesPage(driver);
     }
 
     @Test
-    public void loginTest() throws InterruptedException {
-        loginPage.clickLoginButton();
-        loginPage.inputLogin(ConfProperties.getProperty("login"));
-        loginPage.inputPasswd(ConfProperties.getProperty("password"));
-        Thread.sleep(8000);
-        loginPage.clickSubmit();
-        Assert.assertEquals(ConfProperties.getProperty("username"), loginPage.GetUserName());
+    public void BrushTest() throws InterruptedException {
+        brushesPage.clickCatalogue();
+        brushesPage.clickCategory();
+        brushesPage.clickSubcategory();
+        brushesPage.clickAllProducts();
+        brushesPage.SetPrice(ConfProperties.getProperty("min_price"), ConfProperties.getProperty("max_price"));
     }
 
     @AfterClass
