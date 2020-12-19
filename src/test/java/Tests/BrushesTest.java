@@ -31,6 +31,9 @@ public class BrushesTest {
         brushesPage.clickSubcategory();
         brushesPage.clickAllProducts();
         brushesPage.SetPrice(ConfProperties.getProperty("min_price"), ConfProperties.getProperty("max_price"));
+        brushesPage.clickAddInCardBtn();
+        brushesPage.clickInCardBtn();
+        //Thread.sleep(10000);
     }
 
     @AfterClass

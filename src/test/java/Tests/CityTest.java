@@ -2,10 +2,7 @@ package Tests;
 
 import Pages.CityPage;
 import Properties.ConfProperties;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
@@ -27,7 +24,7 @@ public class CityTest {
         return Arrays.asList(new Object[][]{
                 { "Екатеринбург" },
                 { "Магнитогорск" },
-                { "Выборг" },
+                { "Анапа" },
         });
     }
 
@@ -55,13 +52,23 @@ public class CityTest {
         cityPage.clickLoginButton();
         cityPage.inputLogin(ConfProperties.getProperty("login"));
         cityPage.inputPasswd(ConfProperties.getProperty("password"));
-        Thread.sleep(5000);
+        Thread.sleep(10000);
         cityPage.clickSubmit();
         cityPage.GoToProfile();
         Thread.sleep(5000);
         String shipping_city = cityPage.GetAddress();
-        Assert.assertEquals(cityname, shipping_city);
-        cityPage.LogOut();
+        try
+        {
+            Assert.assertEquals(cityname, shipping_city);
+        }
+        catch(ComparisonFailure ex)
+        {
+            ex.getStackTrace();
+        }
+        finally
+        {
+            cityPage.LogOut();
+        }
     }
 
     @AfterClass
