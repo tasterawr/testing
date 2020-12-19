@@ -2,6 +2,7 @@ package Tests;
 
 import Pages.LoginPage;
 import Properties.ConfProperties;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
@@ -11,28 +12,24 @@ import java.util.concurrent.TimeUnit;
 
 public class LoginTest {
     public static LoginPage loginPage;
-    /**
-     * осуществление первоначальной настройки
-     */
+
     @BeforeClass
     public static void setup() {
-        //определение пути до драйвера и его настройка
         System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromedriver"));
-        //создание экземпляра драйвера
         WebDriver driver = new ChromeDriver();
-        //окно разворачивается на полный экран
         driver.manage().window().maximize();
-        //задержка на выполнение теста = 10 сек.
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        //получение ссылки на страницу входа из файла настроек
         driver.get(ConfProperties.getProperty("loginpage"));
         loginPage = new LoginPage(driver);
     }
 
     @Test
-    public void loginTest() {
+    public void loginTest() throws InterruptedException {
         loginPage.clickLoginButton();
         loginPage.inputLogin(ConfProperties.getProperty("login"));
         loginPage.inputPasswd(ConfProperties.getProperty("password"));
+        Thread.sleep(8000);
+        loginPage.clickSubmit();
+        Assert.assertEquals(ConfProperties.getProperty("username"), loginPage.GetUserName());
     }
 }
